@@ -7,16 +7,18 @@ export async function getStaticPaths() {
 	let routes = []
 
 	for (let entry of await fs.readdir(dir, { withFileTypes: true })) {
-		if (!entry.name.startsWith('_') && entry.isDirectory()) {
-			let entryURL = new URL(`${entry.name}/documentation.astro`, dir)
+		let { name } = entry
+
+		if (!name.startsWith('_') && entry.isDirectory()) {
+			let entryURL = new URL(`${name}/documentation.astro`, dir)
 
 			let [, heading, content] = /^(?:---\n([\W\w]+?)\n---\n?)([\W\w]+)$/.exec(
 				await fs.readFile(entryURL, 'utf8').catch(() => '')
 			)
 
 			routes.push({
-				params: { name: entry.name },
-				props: { heading, content }
+				params: { name },
+				props: { content, heading, name }
 			})
 		}
 	}
@@ -24,4 +26,12 @@ export async function getStaticPaths() {
 	return routes
 }
 ---
-{Astro.props.content}
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	<title>{Astro.props.name} | Components</title>
+</head>
+
+<body>{Astro.props.content}</body>

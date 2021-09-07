@@ -1,9 +1,11 @@
 import LiveComponent from './LiveComponent.astro'
+import Navigation from './Navigation.astro'
 import PackageDetails from './PackageDetails.astro'
-import UsageDetails from './UsageDetails.astro'
+import PropsTable from './PropsTable.astro'
 
 export {
 	LiveComponent,
+	Navigation,
 	PackageDetails,
-	UsageDetails,
+	PropsTable,
 }
