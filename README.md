@@ -17,8 +17,9 @@ An editor and documentation tool that would help enforce the design principles a
 
 All commands are run from the root of the project, from a terminal:
 
-| Command         | Action                                      |
-|:----------------|:--------------------------------------------|
-| `npm install`   | Installs dependencies                       |
-| `npm run start` | Starts local dev server at `localhost:3000` |
-| `npm run build` | Build your production site to `./dist/`     |
+| Command         | Action                                          |
+|:----------------|:------------------------------------------------|
+| `npm install`   | Installs dependencies                           |
+| `npm run start` | Serves the development site at `localhost:3000` |
+| `npm run build` | Builds the production site to `./dist/`         |
+| `npm run serve` | Serves the production site at `localhost:3000`  |
