@@ -3,8 +3,6 @@ const fs = await import('node:fs/promises')
 
 let dir = new URL('../', import.meta.url)
 
-console.log({ dir: dir.href })
-
 let routes = []
 
 for (let entry of await fs.readdir(dir, { withFileTypes: true })) {
@@ -23,7 +21,7 @@ for (let entry of await fs.readdir(dir, { withFileTypes: true })) {
 		{
 			routes.map(route => (
 				<li>
-					<a href="#route">route</a>
+					<a href={`/components/${route}`}>{route}</a>
 				</li>
 			))
 		}
