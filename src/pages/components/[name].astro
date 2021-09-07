@@ -1,0 +1,27 @@
+---
+export async function getStaticPaths() {
+	const fs = await import('node:fs/promises')
+
+	let dir = new URL('../../components/', import.meta.url)
+
+	let routes = []
+
+	for (let entry of await fs.readdir(dir, { withFileTypes: true })) {
+		if (!entry.name.startsWith('_') && entry.isDirectory()) {
+			let entryURL = new URL(`${entry.name}/documentation.astro`, dir)
+
+			let [, heading, content] = /^(?:---\n([\W\w]+?)\n---\n?)([\W\w]+)$/.exec(
+				await fs.readFile(entryURL, 'utf8').catch(() => '')
+			)
+
+			routes.push({
+				params: { name: entry.name },
+				props: { heading, content }
+			})
+		}
+	}
+
+	return routes
+}
+---
+{Astro.props.content}
