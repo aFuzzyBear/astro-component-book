@@ -1,6 +1,6 @@
 # [Astro](https://astro.build) Component Book
 
-Project Lead : [johnathanneal](https://github.com/jonathantneal)
+Project Lead : [jonathantneal](https://github.com/jonathantneal)
 
 ## Overview
 
