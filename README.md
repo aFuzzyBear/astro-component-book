@@ -2,7 +2,7 @@
 
 Project Lead : [jonathantneal](https://github.com/jonathantneal)
 
-## Overview
+## 🧠 Overview
 
 The purpose of this project is to create a Component Explorer and Documentation facility to work with and alongside the Astro framework.
 Taking inspiration from [Storybook.js](https://github.com/storybookjs/storybook), a powerful and fully composite system that provides developers with means to create *Stories* for each component that makes up the UI for that particular application.
@@ -20,5 +20,5 @@ All commands are run from the root of the project, from a terminal:
 | Command         | Action                                      |
 |:----------------|:--------------------------------------------|
 | `npm install`   | Installs dependencies                       |
-| `npm run dev`   | Starts local dev server at `localhost:3000` |
+| `npm run start` | Starts local dev server at `localhost:3000` |
 | `npm run build` | Build your production site to `./dist/`     |
