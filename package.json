@@ -1,14 +1,29 @@
 {
-  "name": "@example/minimal",
+  "name": "astro-component-book",
   "version": "0.0.1",
+  "type": "module",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "serve": "astro build && astro preview"
   },
   "devDependencies": {
-    "astro": "^0.20.4"
+    "astro": "latest"
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "useTabs": true,
+    "overrides": [
+      {
+        "files": "*.json",
+        "options": {
+          "tabWidth": 2,
+          "useTabs": false
+        }
+      }
+    ]
   }
 }
