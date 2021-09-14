@@ -1,0 +1,38 @@
+---
+import fs from 'node:fs/promises'
+
+const rootURL = new URL('../components/', import.meta.url)
+
+const getPaths = async (dir: URL): Promise<string[]> => {
+	const paths: string[] = []
+
+	for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
+		if (entry.isDirectory()) {
+			paths.push(
+				...await getPaths(new URL(entry.name + '/', dir))
+			)
+		} else if (entry.name.endsWith('.story.astro')) {
+			paths.push(
+				dir.href.slice(rootURL.href.length, -1)
+			)
+		}
+	}
+
+	return paths
+}
+
+const paths = await getPaths(rootURL)
+
+console.log({ paths })
+---
+<nav>
+	<ul>
+		{
+			paths.map(path => (
+				<li>
+					<a href={`/components/${path}`}>{path}</a>
+				</li>
+			))
+		}
+	</ul>
+</nav>

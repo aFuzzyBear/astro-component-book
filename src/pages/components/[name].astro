@@ -2,29 +2,39 @@
 export async function getStaticPaths() {
 	const fs = await import('node:fs/promises')
 
-	let dir = new URL('../../components/', import.meta.url)
+	const rootURL = new URL('../../components/', import.meta.url)
 
-	let routes = []
+	const getURLs = async (dir) => {
+		let urls = []
 
-	for (let entry of await fs.readdir(dir, { withFileTypes: true })) {
-		let { name } = entry
-
-		if (!name.startsWith('_') && entry.isDirectory()) {
-			let entryURL = new URL(`${name}/documentation.astro`, dir)
-
-			let [, heading, content] = /^(?:---\n([\W\w]+?)\n---\n?)([\W\w]+)$/.exec(
-				await fs.readFile(entryURL, 'utf8').catch(() => '')
-			)
-
-			routes.push({
-				params: { name },
-				props: { content, heading, name }
-			})
+		for (let entry of await fs.readdir(dir, { withFileTypes: true })) {
+			if (entry.isDirectory()) {
+				urls.push(
+					...await getURLs(new URL(entry.name + '/', dir))
+				)
+			} else if (entry.name.endsWith('.story.astro')) {
+				urls.push(new URL(entry.name, dir))
+			}
 		}
+
+		return urls
 	}
 
-	return routes
+	const urls = await getURLs(rootURL)
+
+	return urls.map(url => {
+		const name = url.href.slice(new URL('../', url).href.length, -18)
+		const href = url.href
+
+		return {
+			params: { name },
+			props: { href, name },
+		}
+	})
 }
+
+// // throws for some reason
+// const Component = (await import(Astro.props.href)).default
 ---
 <html lang="en">
 
@@ -34,6 +44,9 @@ export async function getStaticPaths() {
 	<title>{Astro.props.name} | Components</title>
 </head>
 
-<body>{Astro.props.content}</body>
+<body>
+	<h1>{Astro.props.name}</h1>
+	<p>{Astro.props.href}</p>
+</body>
 
 </html>
