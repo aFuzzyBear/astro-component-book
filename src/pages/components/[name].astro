@@ -1,13 +1,13 @@
 ---
-export async function getStaticPaths() {
-	const fs = await import('node:fs/promises')
+import { promises as fs } from 'node:fs'
 
+export async function getStaticPaths() {
 	const rootURL = new URL('../../components/', import.meta.url)
 
-	const getURLs = async (dir) => {
+	const getURLs = async (dir: URL) => {
 		let urls = []
 
-		for (let entry of await fs.readdir(dir, { withFileTypes: true })) {
+		for await (const entry of await fs.opendir(dir)) {
 			if (entry.isDirectory()) {
 				urls.push(
 					...await getURLs(new URL(entry.name + '/', dir))
@@ -33,8 +33,7 @@ export async function getStaticPaths() {
 	})
 }
 
-// // throws for some reason
-// const Component = (await import(Astro.props.href)).default
+const Story = await import(new URL(Astro.props.href).pathname).then(exports => exports.default)
 ---
 <html lang="en">
 
@@ -47,6 +46,7 @@ export async function getStaticPaths() {
 <body>
 	<h1>{Astro.props.name}</h1>
 	<p>{Astro.props.href}</p>
+	<Story />
 </body>
 
 </html>
